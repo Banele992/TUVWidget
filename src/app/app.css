@@ -1,0 +1,421 @@
+﻿/* ==============================================
+   Global Reset & Base
+   ============================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:host {
+    display: block;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==============================================
+   Page Overlay (full screen background)
+   ============================================== */
+.widget-overlay {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.widget-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(74, 222, 128, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* ==============================================
+   Widget Container (the modal/card)
+   ============================================== */
+.widget-container {
+    width: 100%;
+    max-width: 720px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow:
+        0 32px 80px rgba(0, 0, 0, 0.45),
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    max-height: 90vh;
+    border: 2px solid #7c3aed;
+}
+
+/* Close Button (top right of widget) */
+.widget-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: none;
+    background: #f3f4f6;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.widget-close:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* ==============================================
+   Scrollable Area
+   ============================================== */
+.widget-scroll {
+    overflow-y: auto;
+    flex: 1;
+    padding-bottom: 8px;
+}
+
+.widget-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.widget-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.widget-scroll::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 3px;
+}
+
+/* ==============================================
+   Sections
+   ============================================== */
+.section {
+    padding: 20px 24px 16px;
+}
+
+.section-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2937;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+/* ==============================================
+   Popular Providers Row
+   ============================================== */
+.popular-providers {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.provider-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 8px;
+}
+
+.provider-card:hover {
+    border-color: var(--brand-color, #7c3aed);
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--brand-color, #7c3aed) 25%, transparent);
+    transform: translateY(-1px);
+}
+
+.provider-card.selected {
+    border-color: var(--brand-color, #7c3aed);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-color, #7c3aed) 20%, transparent);
+    background: color-mix(in srgb, var(--brand-color, #7c3aed) 4%, white);
+}
+
+/* Popular cards sizes */
+.popular-card {
+    width: 84px;
+    height: 52px;
+}
+
+/* Voucher grid cards */
+.voucher-card {
+    width: 100%;
+    height: 62px;
+}
+
+.provider-logo-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* ==============================================
+   Tabs Navigation
+   ============================================== */
+.tabs-nav {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding: 0 24px;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.tabs-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #6b7280;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 14px;
+    white-space: nowrap;
+    position: relative;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.15s ease;
+    font-family: inherit;
+}
+
+.tab-btn:hover {
+    color: #374151;
+}
+
+.tab-btn.active {
+    color: #1f2937;
+    font-weight: 700;
+    border-bottom-color: #7c3aed;
+}
+
+/* ==============================================
+   Tab Content Area
+   ============================================== */
+.tab-content {
+    padding: 20px 24px 12px;
+}
+
+/* ==============================================
+   Vouchers Panel
+   ============================================== */
+.vouchers-help {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+.help-link {
+    color: #7c3aed;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.help-link:hover {
+    text-decoration: underline;
+}
+
+/* Provider Grid */
+.providers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+/* Unknown provider radio */
+.unknown-provider {
+    margin-bottom: 20px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: #374151;
+}
+
+.radio-label input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #7c3aed;
+    cursor: pointer;
+}
+
+/* Voucher Input Row */
+.voucher-input-row {
+    display: flex;
+    gap: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid #e5e7eb;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.voucher-input-row:focus-within {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.voucher-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1f2937;
+    background: #fff;
+}
+
+.voucher-input::placeholder {
+    color: #9ca3af;
+}
+
+.submit-btn {
+    background: #7c3aed;
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: #6d28d9;
+}
+
+.submit-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* ==============================================
+   Placeholder Panels (EFT, USSD, Guides, Online)
+   ============================================== */
+.placeholder-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.placeholder-icon {
+    opacity: 0.5;
+}
+
+.placeholder-text {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* ==============================================
+   Widget Footer (Notice Banner)
+   ============================================== */
+.widget-footer {
+    flex-shrink: 0;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    padding: 12px 24px;
+}
+
+.notice-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.notice-text {
+    font-size: 12.5px;
+    color: #92400e;
+    flex: 1;
+}
+
+.notice-link {
+    color: #7c3aed;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.notice-link:hover {
+    text-decoration: underline;
+}
+
+/* ==============================================
+   Responsive
+   ============================================== */
+@media (max-width: 600px) {
+    .widget-container {
+        max-height: 100vh;
+        border-radius: 16px;
+    }
+
+    .providers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tabs-nav {
+        padding: 0 12px;
+    }
+
+    .tab-btn {
+        padding: 10px 10px;
+        font-size: 12px;
+    }
+
+    .section {
+        padding: 16px 16px 12px;
+    }
+
+    .tab-content {
+        padding: 16px 16px 12px;
+    }
+
+    .widget-footer {
+        padding: 10px 16px;
+    }
+}

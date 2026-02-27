@@ -1,0 +1,192 @@
+﻿<div class="widget-overlay">
+  <div class="widget-container" role="main">
+
+    <!-- Close Button -->
+    <button class="widget-close" aria-label="Close widget" id="widget-close-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- Scrollable Content -->
+    <div class="widget-scroll">
+
+      <!-- Popular Section -->
+      <div class="section popular-section">
+        <h2 class="section-label">Popular</h2>
+        <div class="popular-providers">
+          @for (provider of popularProviders; track provider.id) {
+            <button
+              class="provider-card popular-card"
+              [class.selected]="selectedProvider === provider.id"
+              (click)="selectProvider(provider.id)"
+              [id]="'popular-' + provider.id"
+              [attr.aria-label]="'Select ' + provider.name"
+              [style.--brand-color]="provider.brandColor"
+            >
+              <img [src]="provider.logoUrl" [alt]="provider.name" class="provider-logo-img" />
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <nav class="tabs-nav" role="tablist" aria-label="Deposit methods">
+        @for (tab of tabs; track tab.id) {
+          <button
+            class="tab-btn"
+            [class.active]="activeTab === tab.id"
+            (click)="selectTab(tab.id)"
+            [id]="'tab-' + tab.id"
+            role="tab"
+            [attr.aria-selected]="activeTab === tab.id"
+            [attr.aria-controls]="'tabpanel-' + tab.id"
+          >
+            {{ tab.label }}
+          </button>
+        }
+      </nav>
+
+      <!-- Tab Panels -->
+      <div class="tab-content" role="tabpanel" [id]="'tabpanel-' + activeTab">
+
+        <!-- Top Up Vouchers Tab -->
+        @if (activeTab === 'vouchers') {
+          <div class="vouchers-panel" id="vouchers-panel">
+
+            <p class="vouchers-help">
+              Click <a href="#" class="help-link" (click)="openHelp($event)">here</a> for help on finding your provider
+            </p>
+
+            <!-- Provider Grid -->
+            <div class="providers-grid">
+              @for (provider of voucherProviders; track provider.id) {
+                <button
+                  class="provider-card voucher-card"
+                  [class.selected]="selectedProvider === provider.id"
+                  (click)="selectProvider(provider.id)"
+                  [id]="'voucher-' + provider.id"
+                  [attr.aria-label]="'Select ' + provider.name + ' voucher provider'"
+                  [style.--brand-color]="provider.brandColor"
+                >
+                  <img [src]="provider.logoUrl" [alt]="provider.name" class="provider-logo-img" />
+                </button>
+              }
+            </div>
+
+            <!-- Don't know provider -->
+            <div class="unknown-provider">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="provider"
+                  [checked]="selectedProvider === 'unknown'"
+                  (change)="selectProvider('unknown')"
+                  id="provider-unknown"
+                />
+                <span>I don't know what my voucher provider type is</span>
+              </label>
+            </div>
+
+            <!-- Voucher Input -->
+            <div class="voucher-input-row">
+              <input
+                type="text"
+                class="voucher-input"
+                placeholder="Enter voucher number"
+                [(ngModel)]="voucherNumber"
+                id="voucher-number-input"
+                [attr.aria-label]="'Enter voucher number'"
+                (keydown.enter)="submitVoucher()"
+              />
+              <button
+                class="submit-btn"
+                id="submit-voucher-btn"
+                (click)="submitVoucher()"
+                [disabled]="!voucherNumber.trim()"
+                aria-label="Submit voucher"
+              >
+                Submit
+              </button>
+            </div>
+
+          </div>
+        }
+
+        <!-- Online Deposit Tab -->
+        @if (activeTab === 'online') {
+          <div class="placeholder-panel" id="online-deposit-panel">
+            <div class="placeholder-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+            </div>
+            <p class="placeholder-text">Online deposit options will appear here.</p>
+          </div>
+        }
+
+        <!-- EFT Tab -->
+        @if (activeTab === 'eft') {
+          <div class="placeholder-panel" id="eft-panel">
+            <div class="placeholder-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <p class="placeholder-text">EFT transfer details will appear here.</p>
+          </div>
+        }
+
+        <!-- USSD Tab -->
+        @if (activeTab === 'ussd') {
+          <div class="placeholder-panel" id="ussd-panel">
+            <div class="placeholder-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12.01" y2="18"/>
+              </svg>
+            </div>
+            <p class="placeholder-text">Dial codes for USSD top-up will appear here.</p>
+          </div>
+        }
+
+        <!-- Guides Tab -->
+        @if (activeTab === 'guides') {
+          <div class="placeholder-panel" id="guides-panel">
+            <div class="placeholder-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+            </div>
+            <p class="placeholder-text">Step-by-step deposit guides will appear here.</p>
+          </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- Footer Notice -->
+    <div class="widget-footer">
+      <div class="notice-banner">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span class="notice-text">
+          Bonus funds will expire 30 days after the promotion.
+          <a href="#" class="notice-link" (click)="openTsCs($event)">T's and C's</a>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Chatbot Widget -->
+<app-chatbot></app-chatbot>
+
