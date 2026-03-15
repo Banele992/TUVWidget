@@ -1,4 +1,4 @@
-﻿/* ===========================
+/* ===========================
    Chat Widget Container
    =========================== */
 .chat-widget {
@@ -170,6 +170,40 @@
 
 .chat-close-btn:hover {
   background: rgba(255, 255, 255, 0.28);
+}
+
+/* ===========================
+   Language Selector
+   =========================== */
+.chat-lang-selector {
+  margin-right: 4px;
+}
+
+.lang-select {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.lang-select:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.lang-select option {
+  background: #5b21b6;
+  color: #fff;
+  padding: 8px;
 }
 
 /* ===========================

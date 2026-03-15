@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 export interface ChatRequest {
     message: string;
     conversationId?: string;
+    language?: string;
 }
 
 export interface ChatResponse {
